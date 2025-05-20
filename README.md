@@ -51,7 +51,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |`soci::dt_long_long`|Is text|
 |`soci::dt_unsigned_long_long`|Is text|
 
-> [!INFO]
+> [!TIP]
 > boolean is returned as number (`1` or `0`)
 
 > [!NOTE]
