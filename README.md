@@ -31,7 +31,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |4D|SOCI|
 |-|-|
 |Is BLOB|`soci::blob`|
-|Is boolean|`char`|
+|Is boolean|`signed int`|
 |Is date|`std::tm`|
 |Is longint|`signed int`|
 |Is null|`soci::i_null`|
@@ -52,6 +52,8 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |`soci::dt_long_long`|Is text|
 |`soci::dt_unsigned_long_long`|Is text|
 |`soci::dt_blob`|Is BLOB|
+
+Note that boolean is input only.
 
 ## SQLite3 example
 
