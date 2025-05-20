@@ -29,6 +29,39 @@
 		D14AC16B2DDC19B300977F6A /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1652DDC19B300977F6A /* libsqlite3.a */; };
 		D14AC16C2DDC19B300977F6A /* libsoci_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1662DDC19B300977F6A /* libsoci_core.a */; };
 		D14AC16D2DDC19B300977F6A /* libsoci_sqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1672DDC19B300977F6A /* libsoci_sqlite3.a */; };
+		D14AC1722DDC94BC00977F6A /* libpgport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC16E2DDC94BC00977F6A /* libpgport.a */; };
+		D14AC1732DDC94BC00977F6A /* libpgcommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC16F2DDC94BC00977F6A /* libpgcommon.a */; };
+		D14AC1742DDC94BC00977F6A /* libpq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1702DDC94BC00977F6A /* libpq.a */; };
+		D14AC1752DDC94BC00977F6A /* libpgtypes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1712DDC94BC00977F6A /* libpgtypes.a */; };
+		D14AC1922DDC94D700977F6A /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1762DDC94D600977F6A /* libcrypto.a */; };
+		D14AC1932DDC94D700977F6A /* libboost_program_options.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1772DDC94D600977F6A /* libboost_program_options.a */; };
+		D14AC1942DDC94D700977F6A /* libecpg_compat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1782DDC94D600977F6A /* libecpg_compat.a */; };
+		D14AC1952DDC94D700977F6A /* libncurses.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1792DDC94D600977F6A /* libncurses.a */; };
+		D14AC1962DDC94D700977F6A /* libmysqlclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC17A2DDC94D600977F6A /* libmysqlclient.a */; };
+		D14AC1972DDC94D700977F6A /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC17B2DDC94D600977F6A /* libboost_serialization.a */; };
+		D14AC1982DDC94D700977F6A /* libboost_atomic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC17C2DDC94D600977F6A /* libboost_atomic.a */; };
+		D14AC1992DDC94D700977F6A /* liblz4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC17D2DDC94D600977F6A /* liblz4.a */; };
+		D14AC19A2DDC94D700977F6A /* libjsoncpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC17E2DDC94D600977F6A /* libjsoncpp.a */; };
+		D14AC19B2DDC94D700977F6A /* libzstd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC17F2DDC94D600977F6A /* libzstd.a */; };
+		D14AC19C2DDC94D700977F6A /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1802DDC94D600977F6A /* libz.a */; };
+		D14AC19D2DDC94D700977F6A /* libodbccr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1812DDC94D600977F6A /* libodbccr.a */; };
+		D14AC19E2DDC94D700977F6A /* libboost_container.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1822DDC94D600977F6A /* libboost_container.a */; };
+		D14AC19F2DDC94D700977F6A /* libmenu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1832DDC94D600977F6A /* libmenu.a */; };
+		D14AC1A02DDC94D700977F6A /* libboost_wserialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1842DDC94D600977F6A /* libboost_wserialization.a */; };
+		D14AC1A12DDC94D700977F6A /* libboost_thread.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1852DDC94D600977F6A /* libboost_thread.a */; };
+		D14AC1A22DDC94D700977F6A /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1862DDC94D600977F6A /* libboost_system.a */; };
+		D14AC1A32DDC94D700977F6A /* libodbcinst.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1872DDC94D600977F6A /* libodbcinst.a */; };
+		D14AC1A42DDC94D700977F6A /* libncurses++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1882DDC94D600977F6A /* libncurses++.a */; };
+		D14AC1A52DDC94D700977F6A /* libecpg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1892DDC94D600977F6A /* libecpg.a */; };
+		D14AC1A62DDC94D700977F6A /* libboost_random.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC18A2DDC94D700977F6A /* libboost_random.a */; };
+		D14AC1A72DDC94D700977F6A /* libboost_date_time.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC18B2DDC94D700977F6A /* libboost_date_time.a */; };
+		D14AC1A82DDC94D700977F6A /* libboost_chrono.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC18C2DDC94D700977F6A /* libboost_chrono.a */; };
+		D14AC1A92DDC94D700977F6A /* libpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC18D2DDC94D700977F6A /* libpanel.a */; };
+		D14AC1AA2DDC94D700977F6A /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC18E2DDC94D700977F6A /* libssl.a */; };
+		D14AC1AB2DDC94D700977F6A /* libodbc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC18F2DDC94D700977F6A /* libodbc.a */; };
+		D14AC1AC2DDC94D700977F6A /* libboost_graph.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1902DDC94D700977F6A /* libboost_graph.a */; };
+		D14AC1AD2DDC94D700977F6A /* libform.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1912DDC94D700977F6A /* libform.a */; };
+		D14AC1B12DDC94FD00977F6A /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1B02DDC94FD00977F6A /* libiconv.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -92,6 +125,40 @@
 		D14AC1652DDC19B300977F6A /* libsqlite3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite3.a; path = a/libsqlite3.a; sourceTree = "<group>"; };
 		D14AC1662DDC19B300977F6A /* libsoci_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsoci_core.a; path = a/libsoci_core.a; sourceTree = "<group>"; };
 		D14AC1672DDC19B300977F6A /* libsoci_sqlite3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsoci_sqlite3.a; path = a/libsoci_sqlite3.a; sourceTree = "<group>"; };
+		D14AC16E2DDC94BC00977F6A /* libpgport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpgport.a; path = a/libpgport.a; sourceTree = "<group>"; };
+		D14AC16F2DDC94BC00977F6A /* libpgcommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpgcommon.a; path = a/libpgcommon.a; sourceTree = "<group>"; };
+		D14AC1702DDC94BC00977F6A /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpq.a; path = a/libpq.a; sourceTree = "<group>"; };
+		D14AC1712DDC94BC00977F6A /* libpgtypes.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpgtypes.a; path = a/libpgtypes.a; sourceTree = "<group>"; };
+		D14AC1762DDC94D600977F6A /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = a/libcrypto.a; sourceTree = "<group>"; };
+		D14AC1772DDC94D600977F6A /* libboost_program_options.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_program_options.a; path = a/libboost_program_options.a; sourceTree = "<group>"; };
+		D14AC1782DDC94D600977F6A /* libecpg_compat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libecpg_compat.a; path = a/libecpg_compat.a; sourceTree = "<group>"; };
+		D14AC1792DDC94D600977F6A /* libncurses.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libncurses.a; path = a/libncurses.a; sourceTree = "<group>"; };
+		D14AC17A2DDC94D600977F6A /* libmysqlclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmysqlclient.a; path = a/libmysqlclient.a; sourceTree = "<group>"; };
+		D14AC17B2DDC94D600977F6A /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = a/libboost_serialization.a; sourceTree = "<group>"; };
+		D14AC17C2DDC94D600977F6A /* libboost_atomic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_atomic.a; path = a/libboost_atomic.a; sourceTree = "<group>"; };
+		D14AC17D2DDC94D600977F6A /* liblz4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblz4.a; path = a/liblz4.a; sourceTree = "<group>"; };
+		D14AC17E2DDC94D600977F6A /* libjsoncpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjsoncpp.a; path = a/libjsoncpp.a; sourceTree = "<group>"; };
+		D14AC17F2DDC94D600977F6A /* libzstd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libzstd.a; path = a/libzstd.a; sourceTree = "<group>"; };
+		D14AC1802DDC94D600977F6A /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = a/libz.a; sourceTree = "<group>"; };
+		D14AC1812DDC94D600977F6A /* libodbccr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libodbccr.a; path = a/libodbccr.a; sourceTree = "<group>"; };
+		D14AC1822DDC94D600977F6A /* libboost_container.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_container.a; path = a/libboost_container.a; sourceTree = "<group>"; };
+		D14AC1832DDC94D600977F6A /* libmenu.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmenu.a; path = a/libmenu.a; sourceTree = "<group>"; };
+		D14AC1842DDC94D600977F6A /* libboost_wserialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_wserialization.a; path = a/libboost_wserialization.a; sourceTree = "<group>"; };
+		D14AC1852DDC94D600977F6A /* libboost_thread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_thread.a; path = a/libboost_thread.a; sourceTree = "<group>"; };
+		D14AC1862DDC94D600977F6A /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_system.a; path = a/libboost_system.a; sourceTree = "<group>"; };
+		D14AC1872DDC94D600977F6A /* libodbcinst.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libodbcinst.a; path = a/libodbcinst.a; sourceTree = "<group>"; };
+		D14AC1882DDC94D600977F6A /* libncurses++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libncurses++.a"; path = "a/libncurses++.a"; sourceTree = "<group>"; };
+		D14AC1892DDC94D600977F6A /* libecpg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libecpg.a; path = a/libecpg.a; sourceTree = "<group>"; };
+		D14AC18A2DDC94D700977F6A /* libboost_random.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_random.a; path = a/libboost_random.a; sourceTree = "<group>"; };
+		D14AC18B2DDC94D700977F6A /* libboost_date_time.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_date_time.a; path = a/libboost_date_time.a; sourceTree = "<group>"; };
+		D14AC18C2DDC94D700977F6A /* libboost_chrono.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_chrono.a; path = a/libboost_chrono.a; sourceTree = "<group>"; };
+		D14AC18D2DDC94D700977F6A /* libpanel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpanel.a; path = a/libpanel.a; sourceTree = "<group>"; };
+		D14AC18E2DDC94D700977F6A /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = a/libssl.a; sourceTree = "<group>"; };
+		D14AC18F2DDC94D700977F6A /* libodbc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libodbc.a; path = a/libodbc.a; sourceTree = "<group>"; };
+		D14AC1902DDC94D700977F6A /* libboost_graph.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_graph.a; path = a/libboost_graph.a; sourceTree = "<group>"; };
+		D14AC1912DDC94D700977F6A /* libform.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libform.a; path = a/libform.a; sourceTree = "<group>"; };
+		D14AC1AE2DDC94E800977F6A /* libiconv_std.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv_std.tbd; path = usr/lib/i18n/libiconv_std.tbd; sourceTree = SDKROOT; };
+		D14AC1B02DDC94FD00977F6A /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		D14D10DD1A03A8A5008B3411 /* constants.xlf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = constants.xlf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,12 +167,45 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D14AC1682DDC19B300977F6A /* libsoci_odbc.a in Frameworks */,
-				D14AC1692DDC19B300977F6A /* libsoci_mysql.a in Frameworks */,
-				D14AC16A2DDC19B300977F6A /* libsoci_postgresql.a in Frameworks */,
-				D14AC16B2DDC19B300977F6A /* libsqlite3.a in Frameworks */,
+				D14AC1B12DDC94FD00977F6A /* libiconv.tbd in Frameworks */,
+				D14AC1922DDC94D700977F6A /* libcrypto.a in Frameworks */,
+				D14AC1932DDC94D700977F6A /* libboost_program_options.a in Frameworks */,
+				D14AC1942DDC94D700977F6A /* libecpg_compat.a in Frameworks */,
+				D14AC1952DDC94D700977F6A /* libncurses.a in Frameworks */,
+				D14AC1962DDC94D700977F6A /* libmysqlclient.a in Frameworks */,
+				D14AC1972DDC94D700977F6A /* libboost_serialization.a in Frameworks */,
+				D14AC1982DDC94D700977F6A /* libboost_atomic.a in Frameworks */,
+				D14AC1992DDC94D700977F6A /* liblz4.a in Frameworks */,
+				D14AC19A2DDC94D700977F6A /* libjsoncpp.a in Frameworks */,
+				D14AC19B2DDC94D700977F6A /* libzstd.a in Frameworks */,
+				D14AC19C2DDC94D700977F6A /* libz.a in Frameworks */,
+				D14AC19D2DDC94D700977F6A /* libodbccr.a in Frameworks */,
+				D14AC19E2DDC94D700977F6A /* libboost_container.a in Frameworks */,
+				D14AC19F2DDC94D700977F6A /* libmenu.a in Frameworks */,
+				D14AC1A02DDC94D700977F6A /* libboost_wserialization.a in Frameworks */,
+				D14AC1A12DDC94D700977F6A /* libboost_thread.a in Frameworks */,
+				D14AC1A22DDC94D700977F6A /* libboost_system.a in Frameworks */,
+				D14AC1A32DDC94D700977F6A /* libodbcinst.a in Frameworks */,
+				D14AC1A42DDC94D700977F6A /* libncurses++.a in Frameworks */,
+				D14AC1A52DDC94D700977F6A /* libecpg.a in Frameworks */,
+				D14AC1A62DDC94D700977F6A /* libboost_random.a in Frameworks */,
+				D14AC1A72DDC94D700977F6A /* libboost_date_time.a in Frameworks */,
+				D14AC1A82DDC94D700977F6A /* libboost_chrono.a in Frameworks */,
+				D14AC1A92DDC94D700977F6A /* libpanel.a in Frameworks */,
+				D14AC1AA2DDC94D700977F6A /* libssl.a in Frameworks */,
+				D14AC1AB2DDC94D700977F6A /* libodbc.a in Frameworks */,
+				D14AC1AC2DDC94D700977F6A /* libboost_graph.a in Frameworks */,
+				D14AC1AD2DDC94D700977F6A /* libform.a in Frameworks */,
+				D14AC1732DDC94BC00977F6A /* libpgcommon.a in Frameworks */,
+				D14AC1722DDC94BC00977F6A /* libpgport.a in Frameworks */,
+				D14AC1752DDC94BC00977F6A /* libpgtypes.a in Frameworks */,
+				D14AC1742DDC94BC00977F6A /* libpq.a in Frameworks */,
 				D14AC16C2DDC19B300977F6A /* libsoci_core.a in Frameworks */,
+				D14AC1692DDC19B300977F6A /* libsoci_mysql.a in Frameworks */,
+				D14AC1682DDC19B300977F6A /* libsoci_odbc.a in Frameworks */,
+				D14AC16A2DDC19B300977F6A /* libsoci_postgresql.a in Frameworks */,
 				D14AC16D2DDC19B300977F6A /* libsoci_sqlite3.a in Frameworks */,
+				D14AC16B2DDC19B300977F6A /* libsqlite3.a in Frameworks */,
 				D130064F12F02D9700702C0E /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,6 +291,40 @@
 		D16FBB3C22A4C07E008F0416 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D14AC1B02DDC94FD00977F6A /* libiconv.tbd */,
+				D14AC1AE2DDC94E800977F6A /* libiconv_std.tbd */,
+				D14AC17C2DDC94D600977F6A /* libboost_atomic.a */,
+				D14AC18C2DDC94D700977F6A /* libboost_chrono.a */,
+				D14AC1822DDC94D600977F6A /* libboost_container.a */,
+				D14AC18B2DDC94D700977F6A /* libboost_date_time.a */,
+				D14AC1902DDC94D700977F6A /* libboost_graph.a */,
+				D14AC1772DDC94D600977F6A /* libboost_program_options.a */,
+				D14AC18A2DDC94D700977F6A /* libboost_random.a */,
+				D14AC17B2DDC94D600977F6A /* libboost_serialization.a */,
+				D14AC1862DDC94D600977F6A /* libboost_system.a */,
+				D14AC1852DDC94D600977F6A /* libboost_thread.a */,
+				D14AC1842DDC94D600977F6A /* libboost_wserialization.a */,
+				D14AC1762DDC94D600977F6A /* libcrypto.a */,
+				D14AC1892DDC94D600977F6A /* libecpg.a */,
+				D14AC1782DDC94D600977F6A /* libecpg_compat.a */,
+				D14AC1912DDC94D700977F6A /* libform.a */,
+				D14AC17E2DDC94D600977F6A /* libjsoncpp.a */,
+				D14AC17D2DDC94D600977F6A /* liblz4.a */,
+				D14AC1832DDC94D600977F6A /* libmenu.a */,
+				D14AC17A2DDC94D600977F6A /* libmysqlclient.a */,
+				D14AC1792DDC94D600977F6A /* libncurses.a */,
+				D14AC1882DDC94D600977F6A /* libncurses++.a */,
+				D14AC18F2DDC94D700977F6A /* libodbc.a */,
+				D14AC1812DDC94D600977F6A /* libodbccr.a */,
+				D14AC1872DDC94D600977F6A /* libodbcinst.a */,
+				D14AC18D2DDC94D700977F6A /* libpanel.a */,
+				D14AC18E2DDC94D700977F6A /* libssl.a */,
+				D14AC1802DDC94D600977F6A /* libz.a */,
+				D14AC17F2DDC94D600977F6A /* libzstd.a */,
+				D14AC16F2DDC94BC00977F6A /* libpgcommon.a */,
+				D14AC16E2DDC94BC00977F6A /* libpgport.a */,
+				D14AC1712DDC94BC00977F6A /* libpgtypes.a */,
+				D14AC1702DDC94BC00977F6A /* libpq.a */,
 				D14AC1662DDC19B300977F6A /* libsoci_core.a */,
 				D14AC1632DDC19B300977F6A /* libsoci_mysql.a */,
 				D14AC1622DDC19B300977F6A /* libsoci_odbc.a */,
@@ -392,12 +526,16 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "include/soci-darwin/include/**";
+				HEADER_SEARCH_PATHS = (
+					"include/soci-darwin/include/**",
+					include,
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/a",
+					"$(SDKROOT)/usr/lib/i18n",
 				);
 				LIBRARY_STYLE = Bundle;
 				OTHER_CFLAGS = "";
@@ -443,12 +581,16 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "include/soci-darwin/include/**";
+				HEADER_SEARCH_PATHS = (
+					"include/soci-darwin/include/**",
+					include,
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/a",
+					"$(SDKROOT)/usr/lib/i18n",
 				);
 				LIBRARY_STYLE = Bundle;
 				OTHER_CFLAGS = "";
@@ -492,12 +634,16 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "include/soci-darwin/include/**";
+				HEADER_SEARCH_PATHS = (
+					"include/soci-darwin/include/**",
+					include,
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/a",
+					"$(SDKROOT)/usr/lib/i18n",
 				);
 				LIBRARY_STYLE = Bundle;
 				OTHER_CFLAGS = "";

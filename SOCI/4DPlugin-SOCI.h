@@ -17,7 +17,9 @@
 
 #include "soci/soci.h"
 #include "soci/sqlite3/soci-sqlite3.h"
-
+#include "soci/postgresql/soci-postgresql.h"
+#include "soci/odbc/soci-odbc.h"
+#include "soci/mysql/soci-mysql.h"
 #include <memory> //for std::unique_ptr
 
 typedef enum {
