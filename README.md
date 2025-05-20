@@ -23,7 +23,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |statements|Collection&lt;Text&gt;|lines of SQL|
 |bindings|Collection&lt;Object&gt;|KVP for [input binding](#input-binding)|
 |transaction|Integer|see [SOCI modes](#soci-modes)|
-|options|Object|see [ODBC options](ODBC-options)|
+|options|Object|see [ODBC options](#ODBC-options)|
 |status|Object||
 
 ### SOCI backends
