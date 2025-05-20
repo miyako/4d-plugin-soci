@@ -1,4 +1,8 @@
 {
-	"remove_after_use": {},
-	"trash": {}
+	"(remove_after_use)": {},
+	"trash": {
+		"groups": [
+			"(remove_after_use)"
+		]
+	}
 }

@@ -140,10 +140,13 @@ static void SOCI(PA_PluginParameters params) {
     try {
         switch (backend) {
             case soci_backend_odbc:
+                sql.open(soci::odbc, (const char *)connection.c_str());
                 break;
             case soci_backend_mysql:
+                sql.open(soci::mysql, (const char *)connection.c_str());
                 break;
             case soci_backend_postgresql:
+                sql.open(soci::postgresql, (const char *)connection.c_str());
                 break;
             case soci_backend_sqlite3:
                 sql.open(soci::sqlite3, (const char *)connection.c_str());
