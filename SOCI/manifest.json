@@ -1,0 +1,11 @@
+{
+    "name": "SOCI",
+    "id": 20000,
+    "commands": [
+        {
+            "theme": "SOCI",
+            "syntax": "SOCI(&L;&T;&C;&J;&L):J",
+            "threadSafe": true
+        }
+    ]
+}
