@@ -32,7 +32,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |-|-|
 |Is BLOB|`soci::blob`|
 |Is boolean|`signed int`|
-|Is date|`std::tm`|
+|Is date|`std::string`|
 |Is longint|`signed int`|
 |Is null|`soci::i_null`|
 |Is real|`double`|
@@ -53,11 +53,9 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |`soci::dt_long_long`|Is text|
 |`soci::dt_unsigned_long_long`|Is text|
 
-> [!TIP]
-> boolean is returned as number (`1` or `0`)
-
 > [!NOTE]
-> `4D.Blob` is not supported.
+> boolean is returned as number (`1` or `0`)
+> date is converted to `YYYY-MM-DD`
 
 ## SQLite3 example
 
