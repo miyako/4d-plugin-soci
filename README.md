@@ -31,8 +31,11 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 ```4d
 $connection:=File(File("/RESOURCES/test.db").platformPath; fk platform path).path
 $INSERT:="INSERT INTO users(name,email) VALUES(:name,:email);"
-$SELECT:="SELECT id,name,email FROM users WHERE name = :name;"
+$SELECT:="SELECT name,email FROM users WHERE name = :name;"
 $SQL:=[$INSERT; $SELECT]
-$params:=[{name: "keisuke miyako"; email: "keisuke.miyako@4d.com"}]
+$params:=[\
+{name: "keisuke miyako"; email: "keisuke.miyako@4d.com"}; \
+{name: "keisuke miyako"}]
+
 $status:=SOCI(SOCI_SQLITE3; $connection; $SQL; $params; SOCI_IN_TRANSACTION)
 ```
