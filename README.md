@@ -30,6 +30,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 
 |4D|SOCI|
 |-|-|
+|Is BLOB|`soci::blob`|
 |Is boolean|`signed int`|
 |Is date|`std::tm`|
 |Is longint|`signed int`|
@@ -43,6 +44,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |SOCI|4D|
 |-|-|
 |`soci::i_null`|Is null|
+|`soci::dt_blob`|Is BLOB|
 |`soci::dt_string`|Is text|
 |`soci::dt_xml`|Is text|
 |`soci::dt_date`|Is date|
