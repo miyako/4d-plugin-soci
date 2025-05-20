@@ -4,8 +4,14 @@
 ![downloads](https://img.shields.io/github/downloads/miyako/4d-plugin-soci/total)
 
 # 4d-plugin-soci
-SOCI for 4D
+[SOCI](https://github.com/SOCI/soci) for 4D
 
+### Dependencies and Licensing
+
+* the source code of this plugin developed using the [4D Plug-in SDK](https://github.com/4d/4D-Plugin-SDK) is licensed under the [MIT license](https://github.com/miyako/4d-plugin-soci/blob/master/LICENSE).
+* the licensing of **SOCI** is [Boost Software License - Version 1.0](https://github.com/SOCI/soci?tab=BSL-1.0-1-ov-file#readme)
+* the licensing of the binary product of this plugin is subject to the licensing of all its dependencies.
+  
 ```
 status:=SOCI(backend;connection;statements;binding;transaction)
 ```
