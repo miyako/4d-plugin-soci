@@ -47,6 +47,9 @@ void ob_set_b(PA_ObjectRef obj, const wchar_t *_key, bool value);
 
 bool ob_is_defined(PA_ObjectRef obj, const wchar_t *_key);
 
+void ob_set_d(PA_ObjectRef obj, const char *_key, short dd, short mm, short yyyy);
+void ob_set_x(PA_ObjectRef obj, const char *_key, std::vector<unsigned char>& data);
+
 bool ob_get_s(PA_ObjectRef obj, const wchar_t *_key, CUTF8String *value);
 bool ob_get_d(PA_ObjectRef obj, const wchar_t *_key, short *dd, short *mm, short *yyyy);
 bool ob_get_a(PA_ObjectRef obj, const wchar_t *_key, CUTF16String *value);

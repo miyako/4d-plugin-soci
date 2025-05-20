@@ -44,6 +44,80 @@ static void toStr(PA_Unistring* from, std::string& to) {
     to = std::string((const char *)u8.c_str(), u8.length());
 }
 
+static bool is_blob_class(PA_ObjectRef blob) {
+    if(blob == NULL) {
+        return false;
+    }
+    bool is_blob_object = false;
+    PA_Variable cbparams[1];
+    cbparams[0] = PA_CreateVariable(eVK_Object);
+    PA_SetObjectVariable(&cbparams[0], blob);
+    PA_ObjectRef _class = PA_GetObjectVariable(PA_ExecuteCommandByID(1730 /*OB Class*/, cbparams, 1));
+    //do not clear this variable, it contains the blob!
+    C_TEXT t;
+    t.setUTF8String((const uint8_t *)"name", 4);
+    CUTF16String _name;
+    t.copyUTF16String(&_name);
+    PA_Unistring name = PA_CreateUnistring((PA_Unichar *)_name.c_str());
+    if(PA_HasObjectProperty(_class, &name)) {
+        PA_Variable v = PA_GetObjectProperty(_class, &name);
+        if(PA_GetVariableKind(v)==eVK_Unistring) {
+            PA_Unistring n = PA_GetStringVariable(v);
+            t.setUTF16String(&n);
+            CUTF8String _n;
+            t.copyUTF8String(&_n);
+            if(_n == (const uint8_t *)"Blob") {
+                is_blob_object = true;
+            }
+        }
+    }
+    PA_DisposeUnistring(&name);
+    return is_blob_object;
+}
+
+static PA_long32 blob_size(PA_ObjectRef blob) {
+    if(blob == NULL) {
+        return 0L;
+    }
+    if(!is_blob_class(blob)) {
+        return 0L;
+    }
+    PA_Variable cbparams[1];
+    cbparams[0] = PA_CreateVariable(eVK_Object);
+    PA_SetObjectVariable(&cbparams[0], blob);
+    PA_long32 size = PA_GetLongintVariable(PA_ExecuteCommandByID(605 /*BLOB size*/, cbparams, 1));
+    PA_ClearVariable(&cbparams[0]);
+    return size;
+}
+
+static void get_blob_data(PA_ObjectRef blob, std::vector<unsigned char>& buf) {
+    
+    PA_long32 size = blob_size(blob);
+    
+    if(size != 0) {
+        PA_Variable cbparams[5];
+        cbparams[0] = PA_CreateVariable(eVK_Object);
+        cbparams[1] = PA_CreateVariable(eVK_Blob);
+        PA_SetObjectVariable(&cbparams[0], blob);
+        PA_SetBlobVariable(&cbparams[1], NULL, 0);
+        PA_ExecuteCommandByID(532 /*VARIABLE TO BLOB*/, cbparams, 2);
+        cbparams[0] = cbparams[1];
+        cbparams[1] = PA_CreateVariable(eVK_Blob);
+        cbparams[2] = PA_CreateVariable(eVK_Longint);
+        cbparams[3] = PA_CreateVariable(eVK_Longint);
+        cbparams[4] = PA_CreateVariable(eVK_Longint);
+        PA_SetLongintVariable(& cbparams[2], 37);
+        PA_SetLongintVariable(& cbparams[3], 0L);
+        PA_SetLongintVariable(& cbparams[4], size);
+        PA_ExecuteCommandByID(558 /*COPY BLOB*/, cbparams, 5);
+        buf.resize(size);
+        PA_GetBlobVariable(cbparams[1], &buf[0]);
+        PA_ClearVariable(&cbparams[2]);
+        PA_ClearVariable(&cbparams[3]);
+        PA_ClearVariable(&cbparams[4]);
+    }
+}
+
 static void SOCI(PA_PluginParameters params) {
 
     soci_backend_t backend = (soci_backend_t)PA_GetLongParameter(params, 1);
@@ -75,14 +149,14 @@ static void SOCI(PA_PluginParameters params) {
                 sql.open(soci::sqlite3, (const char *)connection.c_str());
                 break;
         }
+
+        PA_CollectionRef results = PA_CreateCollection();
         
         std::unique_ptr<soci::transaction> tr;
         if(mode == soci_mode_transaction) {
             tr = std::make_unique<soci::transaction>(sql);
         }
-        
-        PA_CollectionRef results = PA_CreateCollection();
-        
+
         if(statements != NULL) {
             
             unsigned int countLines = PA_GetCollectionLength(statements);
@@ -96,21 +170,26 @@ static void SOCI(PA_PluginParameters params) {
                     std::string statement;
                     toStr(&_statement, statement);
                       
+                    soci::statement st(sql);
+                    soci::row r;
+                    
+                    std::map<std::string, std::string>bind_dt_string;
+                    std::map<std::string, PA_long32>bind_dt_integer;
+                    std::map<std::string, double>bind_dt_double;
+                    std::map<std::string, std::unique_ptr<soci::blob> >bind_dt_blob;
+
+                    int null_value = 0;
+                    soci::indicator null_indicator = soci::i_null;
+                    
+                    st.alloc();
+                    st.prepare(statement);
+                    st.exchange(soci::into(r));
+                    
                     if(l < countBindings) {
                         PA_Variable bindingType = PA_GetCollectionElement(bindings, l);
-                        
                         switch (PA_GetVariableKind(bindingType)) {
                             case eVK_Object:
                             {
-                                soci::statement st(sql);
-                                soci::row r;
-                                
-                                std::map<std::string, std::string>bind_dt_string;
-                                
-                                st.alloc();
-                                st.prepare(statement);
-                                st.exchange(soci::into(r));
-                                
                                 PA_ObjectRef binding = PA_GetObjectVariable(bindingType);
                                 PA_Variable cbparams[1];
                                 cbparams[0] = PA_CreateVariable(eVK_Object);
@@ -128,79 +207,163 @@ static void SOCI(PA_PluginParameters params) {
                                             PA_Variable value = PA_GetObjectProperty(binding, &_name);
                                             PA_VariableKind type = PA_GetObjectPropertyType(binding, &_name);
                                             switch (type) {
+                                                case eVK_Real:
+                                                {
+                                                    double _value = PA_GetRealVariable(value);
+                                                    bind_dt_double[name] = _value;
+                                                    st.exchange(soci::use(bind_dt_double[name], name));
+                                                }
+                                                    break;
+                                                case eVK_Longint:
+                                                case eVK_Integer:
+                                                {
+                                                    PA_long32 _value = PA_GetLongintVariable(value);
+                                                    bind_dt_integer[name] = _value;
+                                                    st.exchange(soci::use(bind_dt_integer[name], name));
+                                                }
+                                                    break;
+                                                case eVK_Time:
+                                                {
+                                                    PA_long32 _value = PA_GetTimeVariable(value);
+                                                    bind_dt_integer[name] = _value;
+                                                    st.exchange(soci::use(bind_dt_integer[name], name));
+                                                }
+                                                    break;
+                                                case eVK_Boolean:
+                                                {
+                                                    int _value = PA_GetBooleanVariable(value);
+                                                    bind_dt_integer[name] = _value;
+                                                    st.exchange(soci::use(bind_dt_integer[name], name));
+                                                }
+                                                    break;
+                                                case eVK_Null:
+                                                {
+                                                    st.exchange(soci::use(null_value, null_indicator, name));
+                                                }
+                                                    break;
                                                 case eVK_Unistring:
                                                 {
-                                                    PA_Unistring _value = PA_GetStringVariable(value);
-                                                    std::string value;
-                                                    toStr(&_value, value);
-                                                    bind_dt_string[name] = value;
-                                                    
+                                                    PA_Unistring __value = PA_GetStringVariable(value);
+                                                    std::string _value;
+                                                    toStr(&__value, _value);
+                                                    bind_dt_string[name] = _value;
                                                     st.exchange(soci::use(bind_dt_string[name], name));
-                                                    
                                                 }
                                                     break;
-                                                    
-                                                default:
-                                                    break;
-                                            }
-                                        }
-                                    }
-                                }
-
-                                st.define_and_bind();
-                                st.execute();
-                                
-                                PA_Variable result = PA_CreateVariable(eVK_Collection);
-                                PA_CollectionRef _result = PA_CreateCollection();
-                                
-                                while (st.fetch()) {
-                                    PA_Variable col = PA_CreateVariable(eVK_Object);
-                                    PA_ObjectRef _col = PA_CreateObject();
-                                    
-                                    for (std::size_t i = 0; i < r.size(); ++i) {
-
-                                        auto row_properties = r.get_properties(i);
-                                        std::string col_name = row_properties.get_name();
-                                        
-                                        if (r.get_indicator(i) == soci::i_null) {
-                                            ob_set_0(_col, col_name.c_str());
-                                        }else{
-                                            soci::data_type col_type = row_properties.get_data_type();
-                                            /*
-                                             dt_string, dt_date, dt_double, dt_integer, dt_long_long, dt_unsigned_long_long,
-                                             dt_blob, dt_xml
-                                             */
-                                            switch (col_type) {
-                                                case soci::dt_string:
+                                                case eVK_Object:
                                                 {
-                                                    std::string value = r.get<std::string>(i);
-                                                    ob_set_s(_col, col_name.c_str(), value.c_str());
+                                                    PA_ObjectRef _value = PA_GetObjectVariable(value);
+                                                    std::vector<unsigned char> buf(0);
+                                                    get_blob_data(_value, buf);
+                                                    bind_dt_blob[name] = std::make_unique<soci::blob>(sql);
+                                                    bind_dt_blob[name]->write(0, (const char *)&buf[0], buf.size());
+                                                    st.exchange(soci::use(*bind_dt_blob[name], name));
                                                 }
                                                     break;
-                                                    
+                                                case eVK_Blob:
+                                                    //4D.Blob is an object(38)
+                                                    break;
+                                                case eVK_Date:
+                                                {
+                                                    //need to store as ISO date
+                                                    short dd, mm, yyyy;
+                                                    PA_GetDateVariable(value, &dd, &mm, &yyyy);
+                                                    char _value[11]; // "YYYY-MM-DD" + null terminator
+                                                    snprintf(_value, 11, "%04d-%02d-%02d", yyyy, mm, dd);
+                                                    bind_dt_string[name] = _value;
+                                                    st.exchange(soci::use(bind_dt_string[name], name));
+                                                }
+                                                    break;
                                                 default:
                                                     break;
                                             }
                                         }
- 
                                     }
-                                    
-                                    PA_SetObjectVariable(&col, _col);
-                                    PA_SetCollectionElement(_result, PA_GetCollectionLength(_result), col);
                                 }
-                                
-                                PA_SetCollectionVariable(&result, _result);
-                                PA_SetCollectionElement(results, l, result);
-                                ob_set_b(status, L"success", true);
-                                
                             }
                                 break;
                             default:
                                 break;
                         }
                     }
-                }
-            }
+                    
+                    st.define_and_bind();
+                    st.execute();
+                    
+                    PA_Variable result = PA_CreateVariable(eVK_Collection);
+                    PA_CollectionRef _result = PA_CreateCollection();
+                    while (st.fetch()) {
+                        PA_Variable col = PA_CreateVariable(eVK_Object);
+                        PA_ObjectRef _col = PA_CreateObject();
+                        
+                        for (std::size_t i = 0; i < r.size(); ++i) {
+
+                            auto row_properties = r.get_properties(i);
+                            std::string col_name = row_properties.get_name();
+                            
+                            if (r.get_indicator(i) == soci::i_null) {
+                                ob_set_0(_col, col_name.c_str());
+                            }else{
+                                soci::data_type col_type = row_properties.get_data_type();
+                                /*
+                                 dt_string, dt_date, dt_double, dt_integer, dt_long_long, dt_unsigned_long_long,
+                                 dt_blob, dt_xml
+                                 */
+                                switch (col_type) {
+                                    case soci::dt_string:
+                                    case soci::dt_xml:
+                                    {
+                                        std::string value = r.get<std::string>(i);
+                                        ob_set_s(_col, col_name.c_str(), value.c_str());
+                                    }
+                                        break;
+                                    case soci::dt_date:
+                                    {
+                                        std::tm t = r.get<std::tm>(i);
+                                        ob_set_d(_col, col_name.c_str(), t.tm_mday, t.tm_mon + 1, t.tm_year + 1900);
+                                    }
+                                        break;
+                                    case soci::dt_double:
+                                    {
+                                        double value = r.get<double>(i);
+                                        ob_set_n(_col, col_name.c_str(), value);
+                                    }
+                                        break;
+                                    case soci::dt_integer:
+                                    {
+                                        int value = r.get<int>(i);
+                                        ob_set_n(_col, col_name.c_str(), value);
+                                    }
+                                        break;
+                                    case soci::dt_long_long:
+                                    {
+                                        std::string value = std::to_string(r.get<long long>(i));
+                                        ob_set_s(_col, col_name.c_str(), value.c_str());
+                                    }
+                                        break;
+                                    case soci::dt_unsigned_long_long:
+                                    {
+                                        std::string value = std::to_string(r.get<unsigned long long>(i));
+                                        ob_set_s(_col, col_name.c_str(), value.c_str());
+                                    }
+                                        break;
+                                    case soci::dt_blob:
+                                    {
+                                        std::string value = r.get<std::string>(i);
+                                        std::vector<unsigned char> buf(value.begin(), value.end());
+                                        ob_set_x(_col, col_name.c_str(), buf);
+                                    }
+                                        break;
+                                }
+                            }
+                        }
+                        PA_SetObjectVariable(&col, _col);
+                        PA_SetCollectionElement(_result, PA_GetCollectionLength(_result), col);
+                    }
+                    PA_SetCollectionVariable(&result, _result);
+                    PA_SetCollectionElement(results, l, result);
+                }//statement
+            }//l (lines)
         }
         
         if(mode == soci_mode_transaction) {
@@ -208,6 +371,7 @@ static void SOCI(PA_PluginParameters params) {
             tr.reset(); // destroy transaction object
         }
         
+        ob_set_b(status, L"success", true);
         ob_set_c(status, "results", results);
         
     } catch (const std::exception& e) {
@@ -216,4 +380,3 @@ static void SOCI(PA_PluginParameters params) {
     }
     PA_ReturnObject(params, status);
 }
-

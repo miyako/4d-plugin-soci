@@ -57,6 +57,10 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 > boolean is returned as number (`1` or `0`)
 > date is converted to `YYYY-MM-DD`
 
+> [!WARNING]
+> if a `DATETIME` contains a value that can't be parsed as ISO 8601, you may get the error "Cannot parse date/time field component"
+> 
+
 ## SQLite3 example
 
 ```4d
