@@ -7,7 +7,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 
 |parameter|type|description|
 |-|-|-|
-|backend|Integer|see below|
+|backend|Integer|[SOCI Backends](#soci-backends)|
 |connection|Text|backend specific connection string|
 |statements|Collection&lt;Text&gt;|lines of SQL|
 |binding|Object|KVP|
