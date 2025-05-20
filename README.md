@@ -34,5 +34,5 @@ $INSERT:="INSERT INTO users(name,email) VALUES(:name,:email);"
 $SELECT:="SELECT id,name,email FROM users WHERE name = :name;"
 $SQL:=[$INSERT; $SELECT]
 $params:=[{name: "keisuke miyako"; email: "keisuke.miyako@4d.com"}]
-$status:=SOCI(SOCI_SQLITE3; $connection; [$SQL]; $params; SOCI_IN_TRANSACTION)
+$status:=SOCI(SOCI_SQLITE3; $connection; $SQL; $params; SOCI_IN_TRANSACTION)
 ```
