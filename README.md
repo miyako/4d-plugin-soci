@@ -1,6 +1,17 @@
-# 4d-plugin-soci
-SOCI for 4D
+![version](https://img.shields.io/badge/version-20%2B-E23089)
+![platform](https://img.shields.io/static/v1?label=platform&message=mac-intel%20|%20mac-arm%20|%20win-64&color=blue)
+[![license](https://img.shields.io/github/license/miyako/4d-plugin-soci)](LICENSE)
+![downloads](https://img.shields.io/github/downloads/miyako/4d-plugin-soci/total)
 
+# 4d-plugin-soci
+[SOCI](https://github.com/SOCI/soci) for 4D
+
+### Dependencies and Licensing
+
+* the source code of this plugin developed using the [4D Plug-in SDK](https://github.com/4d/4D-Plugin-SDK) is licensed under the [MIT license](https://github.com/miyako/4d-plugin-soci/blob/master/LICENSE).
+* the licensing of **SOCI** is [Boost Software License - Version 1.0](https://github.com/SOCI/soci?tab=BSL-1.0-1-ov-file#readme)
+* the licensing of the binary product of this plugin is subject to the licensing of all its dependencies.
+  
 ```
 status:=SOCI(backend;connection;statements;binding;transaction)
 ```
@@ -12,6 +23,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |statements|Collection&lt;Text&gt;|lines of SQL|
 |bindings|Collection&lt;Object&gt;|KVP for [input binding](#input-binding)|
 |transaction|Integer|see [SOCI modes](#soci-modes)|
+|options|Object|see [ODBC options](ODBC-options)|
 |status|Object||
 
 ### SOCI backends
@@ -25,6 +37,16 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 
 * `0`: `SOCI_NOT_IN_TRANSACTION`
 * `1`: `SOCI_IN_TRANSACTION`
+
+### ODBC options
+
+* `odbc_option_driver_complete`
+* `odbc_option_odbc_version`
+* `odbc_option_connect_timeout`
+* `odbc_option_login_timeout`
+
+> [!NOTE]
+> values should be passed as text, not integer
 
 ### input binding
 
@@ -121,7 +143,7 @@ $status:=SOCI(SOCI_ODBC; $connection; $SQL; $params; SOCI_IN_TRANSACTION)
 ## PostgreSQL example
 
 ```4d
-$connection:="host=localhost port=5432 dbname=mydb user=myuser password=mypass"
+$connection:="host=localhost port=5432 dbname=mydb user=myuser password=mypassword"
 $INSERT:="INSERT INTO users(name,email) VALUES(:name,:email);"
 $SELECT:="SELECT name,email FROM users WHERE name = :name;"
 $SQL:=[$INSERT; $SELECT]
@@ -135,7 +157,7 @@ $status:=SOCI(SOCI_POSTGRESQL; $connection; $SQL; $params; SOCI_IN_TRANSACTION)
 ## MySQL example
 
 ```4d
-$connection:="db=mydb user=myuser password=mypass host=localhost"
+$connection:="db=mydb user=myuser password=mypassword host=localhost"
 $INSERT:="INSERT INTO users(name,email) VALUES(:name,:email);"
 $SELECT:="SELECT name,email FROM users WHERE name = :name;"
 $SQL:=[$INSERT; $SELECT]
@@ -144,4 +166,15 @@ $params:=[\
 {name: "keisuke miyako"}]
 
 $status:=SOCI(SOCI_MYSQL; $connection; $SQL; $params; SOCI_IN_TRANSACTION)
+```
+
+## SQL used in examples
+
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ```
