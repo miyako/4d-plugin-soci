@@ -40,7 +40,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 
 ### ODBC options
 
-* `driver_complete`
+* `odbc_driver_complete`
 * `odbc_version`
 * `connect_timeout`
 * `login_timeout`
