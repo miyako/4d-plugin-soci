@@ -1,5 +1,5 @@
 //%attributes = {}
-$connection:="db=mydb user=myuser password=mypass host=localhost"
+$connection:="db=mydb user=myuser password=mypassword host=localhost"
 $INSERT:="INSERT INTO users(name,email) VALUES(:name,:email);"
 $SELECT:="SELECT name,email FROM users WHERE name = :name;"
 $SQL:=[$INSERT; $SELECT]

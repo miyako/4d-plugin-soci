@@ -124,6 +124,7 @@ static void SOCI(PA_PluginParameters params) {
     soci_mode_t mode = (soci_mode_t)PA_GetLongParameter(params, 5);
     PA_CollectionRef statements = PA_GetCollectionParameter(params, 3);
     PA_CollectionRef bindings = PA_GetCollectionParameter(params, 4);
+
     PA_ObjectRef status = PA_CreateObject();
     
     PackagePtr pParams = (PackagePtr)params->fParameters;
@@ -140,7 +141,26 @@ static void SOCI(PA_PluginParameters params) {
     try {
         switch (backend) {
             case soci_backend_odbc:
-                sql.open(soci::odbc, (const char *)connection.c_str());
+            {
+                soci::connection_parameters parameters(soci::odbc, (const char *)connection.c_str());
+                PA_ObjectRef options = PA_GetObjectParameter(params, 6);
+                if(options != NULL) {
+                    CUTF8String stringValue;
+                    if(ob_get_s(Param1, L"odbc_option_driver_complete", &stringValue)) {
+                        parameters.set_option(soci::odbc_option_driver_complete, stringValue);
+                    }
+                    if(ob_get_s(Param1, L"odbc_option_odbc_version", &stringValue)) {
+                        parameters.set_option(soci::odbc_option_odbc_version, stringValue);
+                    }
+                    if(ob_get_s(Param1, L"odbc_option_connect_timeout", &stringValue)) {
+                        parameters.set_option(soci::odbc_option_connect_timeout, stringValue);
+                    }
+                    if(ob_get_s(Param1, L"odbc_option_login_timeout", &stringValue)) {
+                        parameters.set_option(soci::odbc_option_login_timeout, stringValue);
+                    }
+                }
+                sql.open(soci::odbc, parameters);
+            }
                 break;
             case soci_backend_mysql:
                 sql.open(soci::mysql, (const char *)connection.c_str());
