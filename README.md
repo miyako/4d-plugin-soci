@@ -8,7 +8,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |parameter|type|description|
 |-|-|-|
 |backend|Integer|see [SOCI backends](#soci-backends)|
-|connection|Text|backend specific connection string|
+|connection|Text|backend specific connection string see [SOCI documentation](https://github.com/SOCI/soci/tree/master/docs/backends)|
 |statements|Collection&lt;Text&gt;|lines of SQL|
 |bindings|Collection&lt;Object&gt;|KVP for [input binding](#input-binding)|
 |transaction|Integer|see [SOCI modes](#soci-modes)|
