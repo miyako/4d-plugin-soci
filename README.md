@@ -121,7 +121,7 @@ $status:=SOCI(SOCI_ODBC; $connection; $SQL; $params; SOCI_IN_TRANSACTION)
 ## PostgreSQL example
 
 ```4d
-$connection:="host=localhost port=5432 dbname=mydb user=myuser password=mypass"
+$connection:="host=localhost port=5432 dbname=mydb user=myuser password=mypassword"
 $INSERT:="INSERT INTO users(name,email) VALUES(:name,:email);"
 $SELECT:="SELECT name,email FROM users WHERE name = :name;"
 $SQL:=[$INSERT; $SELECT]
@@ -135,7 +135,7 @@ $status:=SOCI(SOCI_POSTGRESQL; $connection; $SQL; $params; SOCI_IN_TRANSACTION)
 ## MySQL example
 
 ```4d
-$connection:="db=mydb user=myuser password=mypass host=localhost"
+$connection:="db=mydb user=myuser password=mypassword host=localhost"
 $INSERT:="INSERT INTO users(name,email) VALUES(:name,:email);"
 $SELECT:="SELECT name,email FROM users WHERE name = :name;"
 $SQL:=[$INSERT; $SELECT]
