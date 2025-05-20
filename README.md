@@ -31,7 +31,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |4D|SOCI|
 |-|-|
 |Is BLOB|`soci::blob`|
-|Is boolean|`bool`|
+|Is boolean|`char`|
 |Is date|`std::tm`|
 |Is longint|`signed int`|
 |Is null|`soci::i_null`|
