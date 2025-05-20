@@ -71,4 +71,33 @@ $params:=[\
 $status:=SOCI(SOCI_SQLITE3; $connection; $SQL; $params; SOCI_IN_TRANSACTION)
 ```
 
+```4d
+$connection:=File(File("/RESOURCES/test.db").platformPath; fk platform path).path
+
+$DROP:="DROP TABLE IF EXISTS sample;"
+
+$CREATE:="CREATE TABLE sample ("+\
+"id INTEGER PRIMARY KEY,"+\
+"name TEXT, flag BOOLEAN, score REAL, data BLOB, created_at DATETIME);"
+
+$INSERT:="INSERT INTO sample (id, name, flag, score, data, created_at) "+\
+"VALUES(:id, :name, :flag, :score, :data, :created_at);"
+
+$SELECT:="SELECT * FROM sample;"
+
+var $data : Blob
+TEXT TO BLOB("hello!"; $data; UTF8 text without length)
+
+$params:=[Null; Null; {id: 1; \
+name: "keisuke miyako"; \
+flag: True; \
+score: 123456789.1234; \
+data: $data; \
+created_at: Current date}; Null]
+
+$SQL:=[$DROP; $CREATE; $INSERT; $SELECT]
+
+$status:=SOCI(SOCI_SQLITE3; $connection; $SQL; $params; SOCI_NOT_IN_TRANSACTION)
+```
+
 references: https://github.com/SOCI/soci/tree/master/docs/backends
