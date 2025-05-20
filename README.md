@@ -30,7 +30,6 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 
 |4D|SOCI|
 |-|-|
-|Is BLOB|`soci::blob`|
 |Is boolean|`signed int`|
 |Is date|`std::tm`|
 |Is longint|`signed int`|
@@ -51,9 +50,12 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |`soci::dt_integer`|Is longint|
 |`soci::dt_long_long`|Is text|
 |`soci::dt_unsigned_long_long`|Is text|
-|`soci::dt_blob`|Is BLOB|
 
-Note that boolean is input only.
+> [!INFO]
+> boolean is returned as number (`1` or `0`)
+
+> [!NOTE]
+> `4D.Blob` is not supported.
 
 ## SQLite3 example
 
