@@ -1,3 +1,7 @@
 SOCI/test/userPreferences.*
 SOCI/test/Project/DerivedData/*
 SOCI/build/*
+SOCI/.vs/*
+SOCI/test/Plugins/SOCI.bundle/Contents/Windows64/SOCI.exp
+SOCI/test/Plugins/SOCI.bundle/Contents/Windows64/SOCI.lib
+SOCI/Objs/*
