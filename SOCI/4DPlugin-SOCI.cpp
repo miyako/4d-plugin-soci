@@ -146,17 +146,8 @@ static void SOCI(PA_PluginParameters params) {
                 PA_ObjectRef options = PA_GetObjectParameter(params, 6);
                 if(options != NULL) {
                     CUTF8String stringValue;
-                    if(ob_get_s(options, L"odbc_driver_complete", &stringValue)) {
-                        parameters.set_option("odbc_driver_complete", (const char*)stringValue.c_str());
-                    }
-                    if(ob_get_s(options, L"odbc_version", &stringValue)) {
-                        parameters.set_option("odbc_version", (const char*)stringValue.c_str());
-                    }
-                    if(ob_get_s(options, L"connect_timeout", &stringValue)) {
-                        parameters.set_option("connect_timeout", (const char*)stringValue.c_str());
-                    }
-                    if(ob_get_s(options, L"login_timeout", &stringValue)) {
-                        parameters.set_option("login_timeout", (const char *)stringValue.c_str());
+                    if(ob_get_s(options, L"odbc_option_driver_complete", &stringValue)) {
+                        parameters.set_option(soci::odbc_option_driver_complete, (const char*)stringValue.c_str());
                     }
                 }
                 sql.open(parameters);
