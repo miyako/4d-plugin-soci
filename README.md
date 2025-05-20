@@ -145,3 +145,14 @@ $params:=[\
 
 $status:=SOCI(SOCI_MYSQL; $connection; $SQL; $params; SOCI_IN_TRANSACTION)
 ```
+
+## SQL used in examples
+
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
