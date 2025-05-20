@@ -99,5 +99,3 @@ $SQL:=[$DROP; $CREATE; $INSERT; $SELECT]
 
 $status:=SOCI(SOCI_SQLITE3; $connection; $SQL; $params; SOCI_NOT_IN_TRANSACTION)
 ```
-
-references: https://github.com/SOCI/soci/tree/master/docs/backends
