@@ -26,6 +26,33 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 * `0`: `SOCI_NOT_IN_TRANSACTION`
 * `1`: `SOCI_IN_TRANSACTION`
 
+### input binding
+
+|4D|SOCI|
+|-|-|
+|Is BLOB|`soci::blob`|
+|Is boolean|`bool`|
+|Is date|`std::tm`|
+|Is longint|`signed int`|
+|Is null|`soci::i_null`|
+|Is real|`double`|
+|Is text|`std::string`|
+|Is time|`signed int`|
+
+### output binding
+
+|SOCI|4D|
+|-|-|
+|`soci::i_null`|Is null|
+|`soci::dt_string`|Is text|
+|`soci::dt_xml`|Is text|
+|`soci::dt_date`|Is date|
+|`soci::dt_double`|Is real|
+|`soci::dt_integer`|Is longint|
+|`soci::dt_long_long`|Is text|
+|`soci::dt_unsigned_long_long`|Is text|
+|`soci::dt_blob`|Is BLOB|
+
 ## SQLite3 example
 
 ```4d
