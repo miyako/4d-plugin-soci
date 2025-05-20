@@ -45,6 +45,9 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 * `odbc_option_connect_timeout`
 * `odbc_option_login_timeout`
 
+> [!NOTE]
+> values should be passed as text, not integer
+
 ### input binding
 
 |4D|SOCI|
