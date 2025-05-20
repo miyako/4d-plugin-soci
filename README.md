@@ -23,6 +23,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |statements|Collection&lt;Text&gt;|lines of SQL|
 |bindings|Collection&lt;Object&gt;|KVP for [input binding](#input-binding)|
 |transaction|Integer|see [SOCI modes](#soci-modes)|
+|options|Object|see [ODBC options](ODBC-options)|
 |status|Object||
 
 ### SOCI backends
@@ -36,6 +37,13 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 
 * `0`: `SOCI_NOT_IN_TRANSACTION`
 * `1`: `SOCI_IN_TRANSACTION`
+
+### ODBC options
+
+* `odbc_option_driver_complete`
+* `odbc_option_odbc_version`
+* `odbc_option_connect_timeout`
+* `odbc_option_login_timeout`
 
 ### input binding
 
