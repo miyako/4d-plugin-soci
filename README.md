@@ -39,3 +39,5 @@ $params:=[\
 
 $status:=SOCI(SOCI_SQLITE3; $connection; $SQL; $params; SOCI_IN_TRANSACTION)
 ```
+
+references: https://github.com/SOCI/soci/tree/master/docs/backends
