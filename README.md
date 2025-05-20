@@ -10,7 +10,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |backend|Integer|see [SOCI backends](#soci-backends)|
 |connection|Text|backend specific connection string|
 |statements|Collection&lt;Text&gt;|lines of SQL|
-|bindings|Collection&lt;Object&gt;|KVP|
+|bindings|Collection&lt;Object&gt;|KVP for `INSERT` `Null` for `SELECT`|
 |transaction|Integer|see [SOCI modes](#soci-modes)|
 |status|Object||
 
