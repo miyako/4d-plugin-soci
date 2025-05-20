@@ -13,3 +13,10 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 |binding|Object|KVP|
 |transaction|Integer|`0` (default) or `1` use transaction|
 |status|Object||
+
+### SOCI Backends
+
+* `0`: `SOCI_ODBC`
+* `1`: `SOCI_MYSQL`
+* `2`: `SOCI_POSTGRESQL`
+* `3`: `SOCI_SQLITE3`
