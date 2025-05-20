@@ -40,10 +40,7 @@ status:=SOCI(backend;connection;statements;binding;transaction)
 
 ### ODBC options
 
-* `odbc_driver_complete`
-* `odbc_version`
-* `connect_timeout`
-* `login_timeout`
+* `odbc_option_driver_complete`
 
 > [!NOTE]
 > values should be passed as text, not integer
