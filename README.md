@@ -126,7 +126,7 @@ $status:=SOCI(SOCI_SQLITE3; $connection; $SQL; $params; SOCI_NOT_IN_TRANSACTION)
 ## ODBC example
 
 ```4d
-$connection:="DSN=4Dv20"
+$connection:="DSN=4Dv20;UID=myuser;PWD=mypassword;"
 $INSERT:="INSERT INTO users(name,email) VALUES(:name,:email);"
 $SELECT:="SELECT name,email FROM users WHERE name = :name;"
 $SQL:=[$INSERT; $SELECT]
@@ -134,7 +134,7 @@ $params:=[\
 {name: "keisuke miyako"; email: "keisuke.miyako@4d.com"}; \
 {name: "keisuke miyako"}]
 
-$status:=SOCI(SOCI_ODBC; $connection; $SQL; $params; SOCI_IN_TRANSACTION;{"odbc_option_driver_complete":"0"})
+$status:=SOCI(SOCI_ODBC; $connection; $SQL; $params; SOCI_IN_TRANSACTION;{odbc_option_driver_complete:"0"})
 ```
 
 ## PostgreSQL example
