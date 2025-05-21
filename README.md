@@ -175,3 +175,7 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
+
+## Discussions
+
+https://discuss.4d.com/t/thread-safe-access-to-read-write-data-from-ms-sql/35205/11
