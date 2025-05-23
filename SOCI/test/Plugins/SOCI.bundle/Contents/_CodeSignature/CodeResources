@@ -54,6 +54,15 @@
 			qi79h1wgL/qHczO+NvxToGTTV8cNkuFR+Er5NMsjEWY=
 			</data>
 		</dict>
+		<key>SOCI</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			6CGz9kIxlrJNmEpYA1CkGCAsItQ=
+			</data>
+			<key>requirement</key>
+			<string>identifier SOCI and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = Y69CWUC25B</string>
+		</dict>
 		<key>Windows64/SOCI.4DX</key>
 		<dict>
 			<key>hash2</key>

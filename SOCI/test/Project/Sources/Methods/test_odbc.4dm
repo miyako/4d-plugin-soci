@@ -1,5 +1,5 @@
 //%attributes = {}
-$connection:="DSN=4Dv20"
+$connection:="DSN=4D"
 $INSERT:="INSERT INTO users(name,email) VALUES(:name,:email);"
 $SELECT:="SELECT name,email FROM users WHERE name = :name;"
 $SQL:=[$INSERT; $SELECT]
