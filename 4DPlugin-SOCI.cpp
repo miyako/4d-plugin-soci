@@ -36,6 +36,45 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params) {
 #pragma mark -
 
 
+// This header's ob_set_* family only covers JSON-representable property
+// types (text, number, bool, null, object, collection, picture) -- there is
+// no raw-binary/BLOB setter, since JSON itself has no binary type. Base64
+// text is the standard way to carry binary data through a JSON-shaped
+// object, so BLOB columns are exposed to 4D as Base64 text via ob_set_s
+// rather than as a native BLOB property.
+static std::string base64_encode(const unsigned char *data, size_t len) {
+    static const char alphabet[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz"
+        "0123456789+/";
+    std::string out;
+    out.reserve(((len + 2) / 3) * 4);
+    size_t i = 0;
+    while (i + 3 <= len) {
+        unsigned int n = ((unsigned int)data[i] << 16) | ((unsigned int)data[i + 1] << 8) | (unsigned int)data[i + 2];
+        out += alphabet[(n >> 18) & 0x3F];
+        out += alphabet[(n >> 12) & 0x3F];
+        out += alphabet[(n >> 6) & 0x3F];
+        out += alphabet[n & 0x3F];
+        i += 3;
+    }
+    size_t rem = len - i;
+    if (rem == 1) {
+        unsigned int n = (unsigned int)data[i] << 16;
+        out += alphabet[(n >> 18) & 0x3F];
+        out += alphabet[(n >> 12) & 0x3F];
+        out += '=';
+        out += '=';
+    } else if (rem == 2) {
+        unsigned int n = ((unsigned int)data[i] << 16) | ((unsigned int)data[i + 1] << 8);
+        out += alphabet[(n >> 18) & 0x3F];
+        out += alphabet[(n >> 12) & 0x3F];
+        out += alphabet[(n >> 6) & 0x3F];
+        out += '=';
+    }
+    return out;
+}
+
 static void toStr(PA_Unistring* from, std::string& to) {
     C_TEXT t;
     t.setUTF16String((const PA_Unichar *)from->fString, from->fLength);
@@ -111,10 +150,12 @@ static void get_blob_data(PA_ObjectRef blob, std::vector<unsigned char>& buf) {
         PA_SetLongintVariable(& cbparams[4], size);
         PA_ExecuteCommandByID(558 /*COPY BLOB*/, cbparams, 5);
         buf.resize(size);
-        PA_GetBlobVariable(cbparams[1], &buf[0]);
+        PA_GetBlobVariable(cbparams[1], buf.data());
         PA_ClearVariable(&cbparams[2]);
         PA_ClearVariable(&cbparams[3]);
         PA_ClearVariable(&cbparams[4]);
+        PA_ClearVariable(&cbparams[0]); //release VARIABLE TO BLOB scratch output (plugin-owned, not the caller's blob)
+        PA_ClearVariable(&cbparams[1]); //release COPY BLOB scratch output (plugin-owned)
     }
 }
 
@@ -137,6 +178,7 @@ static void SOCI(PA_PluginParameters params) {
     ob_set_b(status, L"success", false);
             
     soci::session sql;
+    PA_CollectionRef results = PA_CreateCollection();
     
     try {
         switch (backend) {
@@ -146,7 +188,7 @@ static void SOCI(PA_PluginParameters params) {
                 PA_ObjectRef options = PA_GetObjectParameter(params, 6);
                 if(options != NULL) {
                     CUTF8String stringValue;
-                    if(ob_get_s(options, L"odbc_option_driver_complete", &stringValue)) {
+                    if(ob_get_a(options, L"odbc_option_driver_complete", &stringValue)) {
                         parameters.set_option(soci::odbc_option_driver_complete, (const char*)stringValue.c_str());
                     }
                 }
@@ -164,7 +206,6 @@ static void SOCI(PA_PluginParameters params) {
                 break;
         }
 
-        PA_CollectionRef results = PA_CreateCollection();
         
         std::unique_ptr<soci::transaction> tr;
         if(mode == soci_mode_transaction) {
@@ -270,7 +311,7 @@ static void SOCI(PA_PluginParameters params) {
                                                     std::vector<unsigned char> buf(0);
                                                     get_blob_data(_value, buf);
                                                     bind_dt_blob[name] = std::make_unique<soci::blob>(sql);
-                                                    bind_dt_blob[name]->write(0, (const char *)&buf[0], buf.size());
+                                                    bind_dt_blob[name]->write(0, (const char *)buf.data(), buf.size());
                                                     st.exchange(soci::use(*bind_dt_blob[name], name));
                                                 }
                                                     break;
@@ -334,7 +375,9 @@ static void SOCI(PA_PluginParameters params) {
                                     case soci::dt_date:
                                     {
                                         std::tm t = r.get<std::tm>(i);
-                                        ob_set_d(_col, col_name.c_str(), t.tm_mday, t.tm_mon + 1, t.tm_year + 1900);
+                                        char iso[11]; // "YYYY-MM-DD" + null terminator
+                                        snprintf(iso, 11, "%04d-%02d-%02d", t.tm_year + 1900, t.tm_mon + 1, t.tm_mday);
+                                        ob_set_s(_col, col_name.c_str(), iso);
                                     }
                                         break;
                                     case soci::dt_double:
@@ -364,8 +407,8 @@ static void SOCI(PA_PluginParameters params) {
                                     case soci::dt_blob:
                                     {
                                         std::string value = r.get<std::string>(i);
-                                        std::vector<unsigned char> buf(value.begin(), value.end());
-                                        ob_set_x(_col, col_name.c_str(), buf);
+                                        std::string b64 = base64_encode((const unsigned char *)value.data(), value.size());
+                                        ob_set_s(_col, col_name.c_str(), b64.c_str());
                                     }
                                         break;
                                 }
@@ -386,11 +429,12 @@ static void SOCI(PA_PluginParameters params) {
         }
         
         ob_set_b(status, L"success", true);
-        ob_set_c(status, "results", results);
+        ob_set_c(status, L"results", results);
         
     } catch (const std::exception& e) {
         ob_set_s(status, "errorMessage", e.what());
         ob_set_b(status, L"success", false);
+        ob_set_c(status, L"results", results); //attach whatever statements already completed before the error, instead of orphaning them
     }
     PA_ReturnObject(params, status);
 }
