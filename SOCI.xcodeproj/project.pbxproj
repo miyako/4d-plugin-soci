@@ -62,6 +62,7 @@
 		D14AC1AC2DDC94D700977F6A /* libboost_graph.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1902DDC94D700977F6A /* libboost_graph.a */; };
 		D14AC1AD2DDC94D700977F6A /* libform.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1912DDC94D700977F6A /* libform.a */; };
 		D14AC1B12DDC94FD00977F6A /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D14AC1B02DDC94FD00977F6A /* libiconv.tbd */; };
+		F21A69811BBBE005518A4564 /* constants.xlf in CopyFiles */ = {isa = PBXBuildFile; fileRef = D14D10DD1A03A8A5008B3411 /* constants.xlf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -72,6 +73,7 @@
 			dstSubfolderSpec = 7;
 			files = (
 				D134D4AC1A030BA0008D14EF /* manifest.json in CopyFiles */,
+				F21A69811BBBE005518A4564 /* constants.xlf in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
