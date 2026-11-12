@@ -35,6 +35,27 @@ void PluginMain(PA_long32 selector, PA_PluginParameters params) {
 
 #pragma mark -
 
+// Holds a PA_Variable the plugin owns (an engine-returned copy or a value it
+// created) and clears it on scope exit, including when SOCI throws. Values
+// returned by an engine call are only owned if that call succeeded, so the
+// error is captured immediately after the call.
+struct owned_variable {
+    PA_Variable v;
+    bool owned;
+    owned_variable() : v(PA_CreateVariable(eVK_Undefined)), owned(true) {}
+    explicit owned_variable(PA_Variable value) : v(value), owned(PA_GetLastError() == eER_NoErr) {
+        if(!owned) {
+            v = PA_CreateVariable(eVK_Undefined);
+        }
+    }
+    ~owned_variable() {
+        if(owned) {
+            PA_ClearVariable(&v);
+        }
+    }
+    owned_variable(const owned_variable&) = delete;
+    owned_variable& operator=(const owned_variable&) = delete;
+};
 
 // This header's ob_set_* family only covers JSON-representable property
 // types (text, number, bool, null, object, collection, picture) -- there is
@@ -91,17 +112,18 @@ static bool is_blob_class(PA_ObjectRef blob) {
     PA_Variable cbparams[1];
     cbparams[0] = PA_CreateVariable(eVK_Object);
     PA_SetObjectVariable(&cbparams[0], blob);
-    PA_ObjectRef _class = PA_GetObjectVariable(PA_ExecuteCommandByID(1730 /*OB Class*/, cbparams, 1));
-    //do not clear this variable, it contains the blob!
+    owned_variable classVar(PA_ExecuteCommandByID(1730 /*OB Class*/, cbparams, 1));
+    //do not clear cbparams[0], it borrows the caller's blob
+    PA_ObjectRef _class = PA_GetObjectVariable(classVar.v);
     C_TEXT t;
     t.setUTF8String((const uint8_t *)"name", 4);
     CUTF16String _name;
     t.copyUTF16String(&_name);
     PA_Unistring name = PA_CreateUnistring((PA_Unichar *)_name.c_str());
-    if(PA_HasObjectProperty(_class, &name)) {
-        PA_Variable v = PA_GetObjectProperty(_class, &name);
-        if(PA_GetVariableKind(v)==eVK_Unistring) {
-            PA_Unistring n = PA_GetStringVariable(v);
+    if(_class != NULL && PA_HasObjectProperty(_class, &name)) {
+        owned_variable v(PA_GetObjectProperty(_class, &name));
+        if(PA_GetVariableKind(v.v)==eVK_Unistring) {
+            PA_Unistring n = PA_GetStringVariable(v.v);
             t.setUTF16String(&n);
             CUTF8String _n;
             t.copyUTF8String(&_n);
@@ -125,7 +147,7 @@ static PA_long32 blob_size(PA_ObjectRef blob) {
     cbparams[0] = PA_CreateVariable(eVK_Object);
     PA_SetObjectVariable(&cbparams[0], blob);
     PA_long32 size = PA_GetLongintVariable(PA_ExecuteCommandByID(605 /*BLOB size*/, cbparams, 1));
-    PA_ClearVariable(&cbparams[0]);
+    //do not clear cbparams[0], it borrows the caller's blob
     return size;
 }
 
@@ -136,7 +158,7 @@ static void get_blob_data(PA_ObjectRef blob, std::vector<unsigned char>& buf) {
     if(size != 0) {
         PA_Variable cbparams[5];
         cbparams[0] = PA_CreateVariable(eVK_Object);
-        cbparams[1] = PA_CreateVariable(eVK_Blob);
+        cbparams[1] = PA_CreateVariable(eVK_Undefined);
         PA_SetObjectVariable(&cbparams[0], blob);
         PA_SetBlobVariable(&cbparams[1], NULL, 0);
         PA_ExecuteCommandByID(532 /*VARIABLE TO BLOB*/, cbparams, 2);
@@ -218,10 +240,10 @@ static void SOCI(PA_PluginParameters params) {
             unsigned int countBindings = bindings == NULL ? 0 : PA_GetCollectionLength(bindings);
             
             for(unsigned int l = 0; l < countLines; ++l) {
-                PA_Variable v = PA_GetCollectionElement(statements, l);
-                if(PA_GetVariableKind(v) == eVK_Unistring) {
+                owned_variable v(PA_GetCollectionElement(statements, l));
+                if(PA_GetVariableKind(v.v) == eVK_Unistring) {
                     
-                    PA_Unistring _statement = PA_GetStringVariable(v);
+                    PA_Unistring _statement = PA_GetStringVariable(v.v);
                     std::string statement;
                     toStr(&_statement, statement);
                       
@@ -241,25 +263,27 @@ static void SOCI(PA_PluginParameters params) {
                     st.exchange(soci::into(r));
                     
                     if(l < countBindings) {
-                        PA_Variable bindingType = PA_GetCollectionElement(bindings, l);
-                        switch (PA_GetVariableKind(bindingType)) {
+                        owned_variable bindingType(PA_GetCollectionElement(bindings, l));
+                        switch (PA_GetVariableKind(bindingType.v)) {
                             case eVK_Object:
                             {
-                                PA_ObjectRef binding = PA_GetObjectVariable(bindingType);
+                                PA_ObjectRef binding = PA_GetObjectVariable(bindingType.v);
                                 PA_Variable cbparams[1];
                                 cbparams[0] = PA_CreateVariable(eVK_Object);
                                 PA_SetObjectVariable(&cbparams[0], binding);
-                                PA_CollectionRef keys = PA_GetCollectionVariable(PA_ExecuteCommandByID(1719 /*OB Keys*/, cbparams, 1));
-                                PA_ClearVariable(&cbparams[0]);
+                                owned_variable keysVar(PA_ExecuteCommandByID(1719 /*OB Keys*/, cbparams, 1));
+                                //do not clear cbparams[0], it borrows binding from bindingType
+                                PA_CollectionRef keys = PA_GetCollectionVariable(keysVar.v);
                                 if(keys != NULL) {
                                     unsigned int count = PA_GetCollectionLength(keys);
                                     for(unsigned int i = 0; i < count; ++i) {
-                                        PA_Variable v = PA_GetCollectionElement(keys, i);
-                                        if(PA_GetVariableKind(v) == eVK_Unistring) {
-                                            PA_Unistring _name = PA_GetStringVariable(v);
+                                        owned_variable key(PA_GetCollectionElement(keys, i));
+                                        if(PA_GetVariableKind(key.v) == eVK_Unistring) {
+                                            PA_Unistring _name = PA_GetStringVariable(key.v);
                                             std::string name;
                                             toStr(&_name, name);
-                                            PA_Variable value = PA_GetObjectProperty(binding, &_name);
+                                            owned_variable property(PA_GetObjectProperty(binding, &_name));
+                                            PA_Variable value = property.v;
                                             PA_VariableKind type = PA_GetObjectPropertyType(binding, &_name);
                                             switch (type) {
                                                 case eVK_Real:
@@ -345,11 +369,13 @@ static void SOCI(PA_PluginParameters params) {
                     st.define_and_bind();
                     st.execute();
                     
-                    PA_Variable result = PA_CreateVariable(eVK_Collection);
+                    owned_variable result;
                     PA_CollectionRef _result = PA_CreateCollection();
+                    PA_SetCollectionVariable(&result.v, _result);
                     while (st.fetch()) {
-                        PA_Variable col = PA_CreateVariable(eVK_Object);
+                        owned_variable col;
                         PA_ObjectRef _col = PA_CreateObject();
+                        PA_SetObjectVariable(&col.v, _col);
                         
                         for (std::size_t i = 0; i < r.size(); ++i) {
 
@@ -414,11 +440,9 @@ static void SOCI(PA_PluginParameters params) {
                                 }
                             }
                         }
-                        PA_SetObjectVariable(&col, _col);
-                        PA_SetCollectionElement(_result, PA_GetCollectionLength(_result), col);
+                        PA_SetCollectionElement(_result, PA_GetCollectionLength(_result), col.v);
                     }
-                    PA_SetCollectionVariable(&result, _result);
-                    PA_SetCollectionElement(results, l, result);
+                    PA_SetCollectionElement(results, l, result.v);
                 }//statement
             }//l (lines)
         }

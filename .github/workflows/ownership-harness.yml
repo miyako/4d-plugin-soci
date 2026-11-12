@@ -1,0 +1,25 @@
+name: ownership-harness
+
+on:
+  pull_request:
+    paths:
+      - '4DPlugin-SOCI.cpp'
+      - 'support/**'
+      - '4D Plugin API/**'
+      - 'tests/ownership/**'
+      - '.github/workflows/ownership-harness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  asan-ubsan:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Ownership harness (synthetic Call4D, in-memory SQLite)
+        run: tests/ownership/run.sh
